@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const apiUrl = process.env.VUE_APP_API_URL;
+
 const state = {
   products: [],
   categories: [],
@@ -13,16 +15,13 @@ const getters = {
 };
 
 const actions = {
-
   async fetchCategories({ commit }) {
-    const response = await axios.get(
-      "https://fakestoreapi.com/products/categories",
-    );
+    const response = await axios.get(`${apiUrl}/products/categories`);
     commit("setCategories", ["Все категории", ...response.data]);
   },
 
   async fetchProducts({ commit }) {
-    const response = await axios.get("https://fakestoreapi.com/products");
+    const response = await axios.get(`${apiUrl}/products`);
     commit("setProducts", response.data);
     commit("setFilteredProducts", response.data);
   },
@@ -40,7 +39,7 @@ const actions = {
       console.log(typeof minPrice);
       filtered = filtered.filter((product) => product.price >= minPrice);
     }
-  
+
     if (maxPrice !== null && maxPrice !== "") {
       console.log(typeof minPrice);
       filtered = filtered.filter((product) => product.price <= maxPrice);
